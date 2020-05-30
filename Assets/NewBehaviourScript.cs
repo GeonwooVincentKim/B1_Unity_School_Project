@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class NewBehaviourScript : MonoBehaviour
 {
+    int health = 30;
+    int level = 5;
+
     // Start is called before the first frame update
     void Start()
     {
         Debug.Log("Hello Unity!");
 
-        int level = 5;
         float strength = 15.5f;
         string playerName = "나판사";
         bool isFullLevel = false;
@@ -75,5 +77,85 @@ public class NewBehaviourScript : MonoBehaviour
         // 용사 만렙 여부 결정
         isFullLevel = level == fullLevel;
         Debug.Log("용사 만렙?" + isFullLevel);
+
+        bool isEndTutorial = level > 10;
+        Debug.Log("튜토리얼 끝남?" + isEndTutorial);
+
+
+        string monsterAlarm;
+        switch (monsters[1])
+        {
+
+            case "슬라임":
+                Debug.Log("소형 몬스터 출현!");
+                break;
+
+            case "사막뱀":
+                monsterAlarm = "소형 몬스터가 출현!";
+                break;
+
+            case "악마":
+                Debug.Log("중형 몬스터 출현!");
+                break;
+            case "골렘":
+                Debug.Log("대형 몬스터 출현!");
+                break;
+            default:
+                Debug.Log("??? 몬스터 출현!");
+                break;
+        }
+
+        for(int index = 0; index < monsters.Length; index++)
+        {
+            Debug.Log("이 지역에 있는 몬스터 : " + monsters[index]);
+        }
+
+        foreach(string monster in monsters)
+        {
+            Debug.Log("이 지역에 있는 몬스터는? : " + monster);
+        }
+
+        //health = Heal(health);
+        Heal();
+        for (int index = 0; index < monsters.Length; index++)
+        {
+            Debug.Log("용사는 " + monsters[index] + "에게" + Battle(monsterLevel[index]));
+        }
+
+        // Import Class
+        Player player = new Player();
+        player.id = 0;
+        player.name = "나법관";
+        player.title = "현명한";
+        player.strength = 2.4f;
+        player.weapon = "나무 지팡이";
+        Debug.Log(player.Talk());
+        Debug.Log(player.HasWeapon());
+
+        player.LevelUp();
+        Debug.Log(player.name + "의 레벨은 " + player.level + "입니다.");
+        Debug.Log(player.move());
+    }
+
+    //int Heal(int currentHealth)
+    //{
+    //    currentHealth += 10;
+    //    Debug.Log("힘을 받았습니다. " + currentHealth);
+    //    return currentHealth;
+    //}
+    void Heal()
+    {
+        health += 10;
+        Debug.Log("힘을 받았습니다." + health);
+    }
+
+    string Battle(int monsterLevel)
+    {
+        string result;
+        if (level >= monsterLevel)
+            result = "승리";
+        else
+            result = "패배";
+        return result;
     }
 }
